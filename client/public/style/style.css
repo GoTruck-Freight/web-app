@@ -1,0 +1,191 @@
+@font-face {
+  font-family: Inter;
+  src: url("./Font/Inter/Inter-VariableFont_slnt,wght.ttf");
+}
+@font-face {
+  font-family: Rubik;
+  src: url("./Font/Rubik/Rubik-VariableFont_wght.ttf");
+}
+@font-face {
+  font-family: Lato;
+  src: url("./Font/Lato/Lato-Light.ttf");
+}
+@font-face {
+  font-family: Montserrat;
+  src: url("./Font/Montserrat/Montserrat-VariableFont_wght.ttf");
+}
+.hamburger-icon {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  vertical-align: middle;
+  background-image: url("./public/icon-park_hamburger-button.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
+
+.button-one {
+  display: block;
+  width: 150px;
+  text-align: center;
+  font-family: Rubik;
+  font-style: normal;
+  padding: 3% 2%;
+  border-radius: 11px;
+  color: #2D3642;
+  text-decoration: none;
+  background-color: #FFC000;
+  filter: drop-shadow(0px 3.2874px 3.2874px rgba(0, 0, 0, 0.25));
+}
+
+.red-title-style-one {
+  font-weight: bold;
+  color: #FF0000;
+  line-height: 30px;
+  font-family: Montserrat;
+}
+
+.title-style-one {
+  color: black;
+  font-weight: bold;
+  line-height: 60px;
+}
+
+.text-style-one {
+  color: #737373;
+}
+
+/* CSS */
+.button-19 {
+  -webkit-appearance: button;
+     -moz-appearance: button;
+          appearance: button;
+  background-color: blueviolet;
+  border: solid transparent;
+  border-radius: 16px;
+  border-width: 0 0 4px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: din-round, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  line-height: 20px;
+  margin: 0;
+  outline: none;
+  overflow: visible;
+  padding: 13px 16px !important;
+  text-align: center;
+  text-transform: uppercase;
+  touch-action: manipulation;
+  transform: translateZ(0);
+  transition: filter 0.2s;
+  -moz-user-select: none;
+   -ms-user-select: none;
+       user-select: none;
+  -webkit-user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.button-19:after {
+  background-clip: padding-box;
+  background-color: #1CB0F6;
+  border: solid transparent;
+  border-radius: 16px;
+  border-width: 0 0 4px;
+  bottom: -4px;
+  content: "";
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: -1;
+}
+
+.button-19:main,
+.button-19:focus {
+  -webkit-user-select: auto;
+     -moz-user-select: auto;
+      -ms-user-select: auto;
+          user-select: auto;
+}
+
+.button-19:hover:not(:disabled) {
+  filter: brightness(1.1);
+  -webkit-filter: brightness(1.1);
+}
+
+.button-19:disabled {
+  cursor: auto;
+}
+
+/* CSS */
+.button-5 {
+  align-items: center;
+  background-clip: padding-box;
+  background-color: #fa6400;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: system-ui, -apple-system, system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0;
+  min-height: 3rem;
+  padding: calc(0.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  -moz-user-select: none;
+   -ms-user-select: none;
+       user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: 100%;
+}
+
+.button-5:hover,
+.button-5:focus {
+  background-color: #fb8332;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+}
+
+.button-5:hover {
+  transform: translateY(-1px);
+}
+
+.button-5:active {
+  background-color: #c85000;
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  transform: translateY(0);
+}
+
+.accordion .accordion-item {
+  border-radius: 8px;
+  filter: drop-shadow(0px 3.2874px 3.2874px rgba(0, 0, 0, 0.25));
+}
+.accordion .accordion-button {
+  padding: 5% 4.5%;
+  border-radius: 8px !important;
+  font-family: Rubik;
+  font-weight: 500;
+}
+.accordion .item-red {
+  text-align: center;
+  background-color: rgba(237, 77, 71, 0.2);
+}
+.accordion .item-red::after {
+  background-image: url("./public/+.svg");
+}/*# sourceMappingURL=style.css.map */
