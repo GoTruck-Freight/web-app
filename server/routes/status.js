@@ -1,104 +1,40 @@
-// const express = require('express');
-// const router = express.Router();
-// const Status = require('../models/status');
+const StatusService = require('../services/status-service');
 
-// // Statuses GET
-// router.get('/', (req, res) => {
-//     Status.find()
-//       .then((statuses) => {
-//         res.json(statuses);
-//       })
-//       .catch((err) => {
-//         res.status(500).json({ error: 'Statuslar alınamadı' });
-//       });
-//   });
-  
-//   // Status GET by ID
-//   router.get('/:id', (req, res) => {
-//     const statusId = req.params.id;
-//     Status.findById(statusId)
-//       .then((status) => {
-//         if (!status) {
-//           return res.status(404).json({ error: 'Status tapılmadı😕' });
-//         }
-//         res.json(status);
-//       })
-//       .catch((err) => {
-//         res.status(500).json({ error: 'Status yaradıla bilmədi🤔' });
-//       });
-//   });
-//  // Status GET by name
-//   router.get('/:name', (req, res) => {
-//     const statusname = req.params.name;
-//     Status.findById(statusId)
-//       .then((status) => {
-//         if (!status) {
-//           return res.status(404).json({ error: 'Status tapılmadı😕' });
-//         }
-//         res.json(status);
-//       })
-//       .catch((err) => {
-//         res.status(500).json({ error: 'Status yaradıla bilmədi🤔' });
-//       });
-//   });
-  
-//   // Status POST
-//   router.post('/', (req, res) => {
-//     const { name, title } = req.body;
-//     const newStatus = new Status({ name, title });
-//     newStatus.save()
-//       .then((status) => {
-//         res.status(201).json(status);
-//       })
-//       .catch((err) => {
-//         res.status(500).json({ error: 'Status yaradıla bilmədi🤔' });
-//       });
-//   });
-  
-//   // Status PUT
-//   router.put('/:id', (req, res) => {
-//     const statusId = req.params.id;
-//     const { name, driver } = req.body;
-//     Status.findByIdAndUpdate(statusId, { name, driver }, { new: true })
-//       .then((status) => {
-//         if (!status) {
-//           return res.status(404).json({ error: 'Status tapılmadı😕' });
-//         }
-//         res.json(status);
-//       })
-//       .catch((err) => {
-//         res.status(500).json({ error: 'Status güncəllənə bilmədi🤔' });
-//       });
-//   });
-  
-//   // Status DELETE
-//   router.delete('/:id', (req, res) => {
-//     const statusId = req.params.id;
-//     Status.findByIdAndDelete(statusId)
-//       .then((status) => {
-//         if (!status) {
-//           return res.status(404).json({ error: 'Status tapılmadı😕' });
-//         }
-//         res.json({ message: 'Status uğurla silindi' });
-//       })
-//       .catch((err) => {
-//         res.status(500).json({ error: 'Status silinə bilmədi' });
-//       });
-//   });
-
-
-// module.exports = router;
-const { statusService } = require('../services')
-const router = require('express').Router()
+// Create the router instance
+const express = require('express');
+const router = express.Router();
 
 router.get('/', async (req, res) => {
-  res.send(await statusService.load())
+  res.send(await StatusService.load())
 })
 
 router.get('/name=:name', async (req, res) => {
   const name = req.params.name
-  const status = await statusService.findByStatusName(name)
+  const status = await StatusService.findByStatusName(name)
   if (!status) return res.status(404)
   res.status(201).json(status)
 })
+module.exports = router
+
+
+// Status POST: Create a new status
+router.post('/', async (req, res) => {
+  const status = await StatusService.insert(req.body);
+  res.status(201).send(status);
+});
+
+// Status PUT: Update an existing status
+router.put('/:id', async (req, res) => {
+  const updatedStatus = await StatusService.update(req.params.id, req.body);
+  if (!updatedStatus) return res.status(404).send('Status not found');
+  res.send(updatedStatus);
+});
+
+// Status DELETE: Delete a status
+router.delete('/:id', async (req, res) => {
+  const deletedStatus = await StatusService.removeBy('_id', req.params.id);
+  if (!deletedStatus.deletedCount) return res.status(404).send('Status not found');
+  res.sendStatus(204);
+});
+
 module.exports = router

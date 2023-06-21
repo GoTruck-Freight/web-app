@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const dbConnection = require('./db-connection');
 
+
 // Import routers
 const indexRouter = require('./routes/index');
 const appRouter = require('./routes/app');
@@ -11,6 +12,8 @@ const truckRouter = require('./routes/truck');
 const driverRouter = require('./routes/driver');
 const statusRouter = require('./routes/status');
 const orderRouter = require('./routes/order');
+const roadRouter = require('./routes/road');
+
 
 const port = process.env.PORT || 3000;
 
@@ -30,6 +33,8 @@ app.use('/trucks', truckRouter)
 app.use('/drivers', driverRouter)
 app.use('/statuses', statusRouter)
 app.use('/orders', orderRouter)
+app.use('/roads', orderRouter)
+
 
 // Default route
 app.set('view engine', false);

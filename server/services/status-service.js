@@ -1,7 +1,7 @@
 const BaseService = require('./base-service')
 const Status = require('../models/status')
 
-class statusService extends BaseService {
+class StatusService extends BaseService {
     async findByStatusName(name) {
       const obj ={
         name : name
@@ -9,4 +9,4 @@ class statusService extends BaseService {
        return this.query(obj)
       }
 }
-module.exports = new statusService(Status)
+module.exports = new StatusService(Status)

@@ -1,76 +1,52 @@
+const DriverService = require('../services/driver-service');
+
+// Create the router instance
 const express = require('express');
 const router = express.Router();
-const Driver = require('../models/driver');
 
-// Drivers GET
-router.get('/', (req, res) => {
-    Driver.find()
-      .then((drivers) => {
-        res.json(drivers);
-      })
-      .catch((err) => {
-        res.status(500).json({ error: 'Sürücüler alınamadı' });
-      });
-  });
-  
-  // Driver GET by ID
-  router.get('/:id', (req, res) => {
-    const driverId = req.params.id;
-    Driver.findById(driverId)
-      .then((driver) => {
-        if (!driver) {
-          return res.status(404).json({ error: 'Sürücü bulunamadı' });
-        }
-        res.json(driver);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json({ error: 'Sürücü alınamadı' });
-      });
-  });
-  
-  // Driver POST
-  router.post('/', (req, res) => {
-    const { name, number, trucktype } = req.body;
-    const newDriver = new Driver({ name, number, trucktype });
-    newDriver.save()
-      .then((driver) => {
-        res.status(201).json(driver);
-      })
-      .catch((err) => {
-        res.status(500).json({ error: 'Sürücü oluşturulamadı' });
-      });
-  });
-  
-  // Driver PUT
-  router.put('/:id', (req, res) => {
-    const driverId = req.params.id;
-    const { name, number, trucktype } = req.body;
-    Driver.findByIdAndUpdate(driverId, { name, number, trucktype }, { new: true })
-      .then((driver) => {
-        if (!driver) {
-          return res.status(404).json({ error: 'Sürücü bulunamadı' });
-        }
-        res.json(driver);
-      })
-      .catch((err) => {
-        res.status(500).json({ error: 'Sürücü güncellenemedi' });
-      });
-  });
-  
-  // Driver DELETE
-  router.delete('/:id', (req, res) => {
-    const driverId = req.params.id;
-    Driver.findByIdAndDelete(driverId)
-      .then((driver) => {
-        if (!driver) {
-          return res.status(404).json({ error: 'Sürücü bulunamadı' });
-        }
-        res.json({ message: 'Sürücü başarıyla silindi' });
-      })
-      .catch((err) => {
-        res.status(500).json({ error: 'Sürücü silinemedi' });
-      });
-  });
+// Driver GET: Get all drivers
+router.get('/', async (req, res) => {
+  res.send(await DriverService.load());
+});
+
+// Driver GET: Get driver by ID
+router.get('/:id', async (req, res) => {
+  const driver = await DriverService.find(req.params.id);
+  if (!driver) return res.status(404).send('Driver not found');
+  res.send(driver);
+});
+
+// Driver GET: Get driver by name
+router.get('/name/:name', async (req, res) => {
+
+  const driver = await DriverService.findBy("name", req.params.name)
+
+  if (!driver) return res.status(404)
+  res.send(driver)
+})
+
+
+
+
+
+// Driver POST: Create a new driver
+router.post('/', async (req, res) => {
+  const driver = await DriverService.insert(req.body);
+  res.status(201).send(driver);
+});
+
+// Driver PUT: Update an existing driver
+router.put('/:id', async (req, res) => {
+  const updatedDriver = await DriverService.update(req.params.id, req.body);
+  if (!updatedDriver) return res.status(404).send('Driver not found');
+  res.send(updatedDriver);
+});
+
+// Driver DELETE: Delete a driver
+router.delete('/:id', async (req, res) => {
+  const deletedDriver = await DriverService.removeBy('_id', req.params.id);
+  if (!deletedDriver.deletedCount) return res.status(404).send('Driver not found');
+  res.sendStatus(204);
+});
 
 module.exports = router;

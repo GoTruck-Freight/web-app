@@ -1,75 +1,38 @@
+const OrderService = require('../services/order-service');
+
+// Create the router instance
 const express = require('express');
 const router = express.Router();
-const Order = require('../models/order');
 
-// Orders GET
-router.get('/', (req, res) => {
-    Order.find()
-      .then((orders) => {
-        res.json(orders);
-      })
-      .catch((err) => {
-        res.status(500).json({ error: 'Sifarişler alınamadı' });
-      });
-  });
-  
-  // Order GET by ID
-  router.get('/:id', (req, res) => {
-    const orderId = req.params.id;
-    Order.findById(orderId)
-      .then((order) => {
-        if (!order) {
-          return res.status(404).json({ error: 'Sifariş bulunamadı' });
-        }
-        res.json(order);
-      })
-      .catch((err) => {
-        res.status(500).json({ error: 'Sipariş alınamadı' });
-      });
-  });
-  
-  // Order POST
-  router.post('/', (req, res) => {
-    const { number, created_at, payment, minpayment, maxpayment, propsalpayment, trucktype, weight, route, feedback, status } = req.body;
-    const newOrder = new Order({ number, created_at, payment, minpayment, maxpayment, propsalpayment, trucktype, weight, route, feedback, status });
-    newOrder.save()
-      .then((order) => {
-        res.status(201).json(order);
-      })
-      .catch((err) => {
-        res.status(500).json({ error: 'Sipariş oluşturulamadı' });
-      });
-  });
-  
-  // Order PUT
-  router.put('/:id', (req, res) => {
-    const orderId = req.params.id;
-    const { number, created_at, payment, minpayment, maxpayment, propsalpayment, trucktype, weight, route, feedback, status } = req.body;
-    Order.findByIdAndUpdate(orderId, { number, created_at, payment, minpayment, maxpayment, propsalpayment, trucktype, weight, route, feedback, status }, { new: true })
-      .then((order) => {
-        if (!order) {
-          return res.status(404).json({ error: 'Sifariş bulunamadı' });
-        }
-        res.json(order);
-      })
-      .catch((err) => {
-        res.status(500).json({ error: 'Sifariş güncellenemedi' });
-      });
-  });
-  
-  // Order DELETE
-  router.delete('/:id', (req, res) => {
-    const orderId = req.params.id;
-    Order.findByIdAndDelete(orderId)
-      .then((order) => {
-        if (!order) {
-          return res.status(404).json({ error: 'Sipariş bulunamadı' });
-        }
-        res.json({ message: 'Sipariş başarıyla silindi' });
-      })
-      .catch((err) => {
-        res.status(500).json({ error: 'Sipariş silinemedi' });
-      });
-  });
-  
-module.exports = router;
+router.get('/', async (req, res) => {
+  res.send(await OrderService.load())
+})
+
+
+router.get('/:id', async (req, res) => {
+  const order = await OrderService.find(req.params.id)
+  if (!order) return res.status(404).send('Cannot find order')
+  res.send(order)
+})
+
+// Order POST: Create a new order
+router.post('/', async (req, res) => {
+  const order = await OrderService.insert(req.body);
+  res.status(201).send(order);
+});
+
+// Order PUT: Update an existing order
+router.put('/:id', async (req, res) => {
+  const updatedOrder = await OrderService.update(req.params.id, req.body);
+  if (!updatedOrder) return res.status(404).send('Orders not found');
+  res.send(updatedOrder);
+});
+
+// Order DELETE: Delete a order
+router.delete('/:id', async (req, res) => {
+  const deletedOrder = await OrderService.removeBy('_id', req.params.id);
+  if (!deletedOrder.deletedCount) return res.status(404).send('Orders not found');
+  res.sendStatus(204);
+});
+
+module.exports = router

@@ -1,75 +1,44 @@
+
+const TruckService = require('../services/truck-service');
+
+// Create the router instance
 const express = require('express');
 const router = express.Router();
-const Truck = require('../models/truck');
 
-// Trucks GET
-router.get('/', (req, res) => {
-    Truck.find()
-      .then((trucks) => {
-        res.json(trucks);
-      })
-      .catch((err) => {
-        res.status(500).json({ error: 'Tır alınamadı' });
-      });
-  });
-  
-  // Truck GET by ID
-  router.get('/:id', (req, res) => {
-    const truckId = req.params.id;
-    Truck.findById(truckId)
-      .then((truck) => {
-        if (!truck) {
-          return res.status(404).json({ error: 'Tır bulunamadı' });
-        }
-        res.json(truck);
-      })
-      .catch((err) => {
-        res.status(500).json({ error: 'Tır alınamadı' });
-      });
-  });
-  
-  // Truck POST
-  router.post('/', (req, res) => {
-    const { name } = req.body;
-    const newTruck = new Truck({ name });
-    newTruck.save()
-      .then((truck) => {
-        res.status(201).json(truck);
-      })
-      .catch((err) => {
-        res.status(500).json({ error: 'Tır oluşturulamadı' });
-      });
-  });
-  
-  // Truck PUT
-  router.put('/:id', (req, res) => {
-    const truckId = req.params.id;
-    const { name } = req.body;
-    Truck.findByIdAndUpdate(truckId, { name }, { new: true })
-      .then((truck) => {
-        if (!truck) {
-          return res.status(404).json({ error: 'Tır bulunamadı' });
-        }
-        res.json(truck);
-      })
-      .catch((err) => {
-        res.status(500).json({ error: 'Tır güncellenemedi' });
-      });
-  });
-  
-  // Truck DELETE
-  router.delete('/:id', (req, res) => {
-    const truckId = req.params.id;
-    Truck.findByIdAndDelete(truckId)
-      .then((truck) => {
-        if (!truck) {
-          return res.status(404).json({ error: 'Tır bulunamadı' });
-        }
-        res.json({ message: 'Tır başarıyla silindi' });
-      })
-      .catch((err) => {
-        res.status(500).json({ error: 'Tır silinemedi' });
-      });
-  });
-  
+// GET all trucks
+router.get('/', async (req, res) => {
+  res.send(await TruckService.load())
+})
+
+
+// GET truck by name
+router.get('/name=:name', async (req, res) => {
+
+  const truck = await TruckService.findBy("name", req.params.name)
+
+  if (!truck) return res.status(404)
+  res.send(truck)
+})
+
+// POST a new truck
+router.post('/', async (req, res) => {
+  const truck = await TruckService.insert(req.body);
+  res.status(201).send(truck);
+});
+
+// UPDATE truck by ID
+router.put('/:id', async (req, res) => {
+  const updatedTruck = await TruckService.update(req.params.id, req.body);
+  if (!updatedTruck) return res.status(404).send('Truck not found');
+  res.send(updatedTruck);
+});
+
+// DELETE truck by ID
+router.delete('/:id', async (req, res) => {
+  const deletedTruck = await TruckService.removeBy('_id', req.params.id);
+  if (!deletedTruck.deletedCount) return res.status(404).send('Truck not found');
+  res.sendStatus(204);
+});
+
+
 module.exports = router;

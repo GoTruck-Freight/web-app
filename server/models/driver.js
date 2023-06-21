@@ -10,6 +10,10 @@ const driverSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  password: {
+    type: String,
+    required: true
+  },
   trucktype: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Truck'
