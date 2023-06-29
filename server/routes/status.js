@@ -10,11 +10,11 @@ router.get('/', async (req, res) => {
 
 router.get('/name=:name', async (req, res) => {
   const name = req.params.name
-  const status = await StatusService.findByStatusName(name)
+  const status = await StatusService.findBy("name", req.params.name)
   if (!status) return res.status(404)
   res.status(201).json(status)
 })
-module.exports = router
+
 
 
 // Status POST: Create a new status
