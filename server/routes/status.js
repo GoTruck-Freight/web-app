@@ -16,7 +16,6 @@ router.get('/name=:name', async (req, res) => {
 })
 
 
-
 // Status POST: Create a new status
 router.post('/', async (req, res) => {
   const status = await StatusService.insert(req.body);
