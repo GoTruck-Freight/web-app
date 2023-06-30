@@ -10,6 +10,7 @@
       data: () => ({
         dialog: false,
         dialogDelete: false,
+        id: null,
         headers: [
           {
             title: 'Name',
@@ -18,7 +19,8 @@
             key: 'name',
           },
           { title: 'Number', key: 'number' },
-          { title: 'Factor', key: 'factor' }
+          { title: 'Factor', key: 'factor' },
+          { title: 'Actions', align: 'end', key: 'actions' }
         ],
         roads: [],
         editedIndex: -1,
@@ -53,7 +55,7 @@
         this.initialize()
       },
       methods: {
-        ...mapActions(['getRoads','addRoad']),
+        ...mapActions(['getRoads','addRoad','deleteRoad']),
         async initialize () {
           this.roads = await this.getRoads()
         },
@@ -65,12 +67,15 @@
         },
   
         deleteItem (item) {
+          this.id = item._id
           this.editedIndex = this.roads.indexOf(item)
           this.editedItem = Object.assign({}, item)
           this.dialogDelete = true
         },
   
-        deleteItemConfirm () {
+        async deleteItemConfirm () {
+          console.log(this.id)
+          await this.deleteRoad(this.id)
           this.roads.splice(this.editedIndex, 1)
           this.closeDelete()
         },
@@ -180,9 +185,9 @@
                                 </v-toolbar>
                               </template>
                               <template v-slot:item.actions="{ item }">
-                                <v-icon size="small" class="me-2" @click="editItem(item.raw)">
+                                <!-- <v-icon size="small" class="me-2" @click="editItem(item.raw)">
                                   mdi-pencil
-                                </v-icon>
+                                </v-icon> -->
                                 <v-icon size="small" @click="deleteItem(item.raw)">
                                   mdi-delete
                                 </v-icon>

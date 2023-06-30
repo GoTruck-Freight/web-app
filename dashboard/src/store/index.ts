@@ -27,8 +27,8 @@ export default createStore({
 
     },
     async deleteOrder (context,id){
-      const orders = await axios.delete(`/orders/${id}`)
-      return orders
+      const response = await axios.delete(`/orders/${id}`)
+      return response
     },
     async getStatus (){
       const status = await axios.get(`/statuses`)
@@ -39,21 +39,17 @@ export default createStore({
       const response = await axios.get(`/roads`)
       return response.data
     },
+    async deleteRoad (context,id){
+      const response = await axios.delete(`/roads/${id}`)
+      return response.data
+    },
     async addRoad (context, data){
       try {
-        console.log(data)
-        const obj =  {
-          "number": "M5",
-          "name": "Bakı-Şamaxı-Yevlax-TEST-2",
-          "factor": 0.37
-      }
-        await axios.post('/roads/', obj)
+        await axios.post('/roads/', data)
         .then(response => {
-          // Başarılı yanıt durumunda yapılacak işlemler
           console.log(response.data);
         })
         .catch(error => {
-          // Hata durumunda yapılacak işlemler
           console.error(error);
         });
       }
