@@ -33,7 +33,7 @@ app.use('/trucks', truckRouter)
 app.use('/drivers', driverRouter)
 app.use('/statuses', statusRouter)
 app.use('/orders', orderRouter)
-app.use('/roads', orderRouter)
+app.use('/roads', roadRouter)
 
 
 // Default route

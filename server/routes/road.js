@@ -14,8 +14,6 @@ router.get('/name=:name', async (req, res) => {
   if (!status) return res.status(404)
   res.status(201).json(status)
 })
-module.exports = router
-
 
 // Road POST: Create a new road
 router.post('/', async (req, res) => {
