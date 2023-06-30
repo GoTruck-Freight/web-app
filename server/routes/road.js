@@ -14,6 +14,8 @@ router.get('/name=:name', async (req, res) => {
   if (!status) return res.status(404)
   res.status(201).json(status)
 })
+module.exports = router
+
 
 // Road POST: Create a new road
 router.post('/', async (req, res) => {
@@ -23,15 +25,15 @@ router.post('/', async (req, res) => {
 
 // Road PUT: Update an existing road
 router.put('/:id', async (req, res) => {
-  const updatedStatus = await statusService.update(req.params.id, req.body);
-  if (!updatedStatus) return res.status(404).send('Road not found');
-  res.send(updatedStatus);
+  const status = await RoadService.update(req.params.id, req.body);
+  if (!status) return res.status(404).send('Road not found');
+  res.send(status);
 });
 
 // Road DELETE: Delete a road
 router.delete('/:id', async (req, res) => {
-  const deletedStatus = await statusService.removeBy('_id', req.params.id);
-  if (!deletedStatus.deletedCount) return res.status(404).send('Road not found');
+  const deletedRoad = await RoadService.removeBy('_id', req.params.id);
+  if (!deletedRoad.deletedCount) return res.status(404).send('Road not found');
   res.sendStatus(204);
 });
 
