@@ -45,7 +45,6 @@ export default defineComponent({
     },
     async getDefaultStatus() {
       const arr = await this.getStatus()
-      console.log(arr)
       this.status = arr
     },
     deleteItemConfirm () {
@@ -76,10 +75,11 @@ export default defineComponent({
       },
     async saveOrderStatus() {
       const arr = await this.getStatusbyName(this.selectedStatus)
+      const status = arr.shift()
       const data = {
         'id': this.editedItem._id,
         'status': {
-          "status": arr.shift()
+          "status": status
         }
       }
       const item = await this.updateOrder(data)

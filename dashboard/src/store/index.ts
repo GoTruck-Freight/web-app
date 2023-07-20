@@ -16,6 +16,7 @@ export default createStore({
     },
     async updateOrder (context,data){
         const { id ,status } = data
+        console.log(data)
         try {
           const order = await axios.put(`/orders/${id}`,status)
           return order.data
@@ -39,6 +40,20 @@ export default createStore({
       const response = await axios.get(`/roads`)
       return response.data
     },
+    async getPrice (){
+      const response = await axios.get(`/pricing/first`)
+      return response.data
+    },
+    async updatePrice (context,obj){
+      const { data, id } = obj
+      await axios.put(`/pricing/${id}`, data)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    },
     async deleteRoad (context,id){
       const response = await axios.delete(`/roads/${id}`)
       return response.data
@@ -59,6 +74,7 @@ export default createStore({
     },
     async getStatusbyName (context,value){
       const status = await axios.get(`/statuses/name=${value}`)
+      console.log(value)
       return status.data
     },
   },

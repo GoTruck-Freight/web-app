@@ -8,6 +8,11 @@ router.get("/", async (req, res) => {
   res.send(await OrderService.load());
 });
 
+router.get("/calculatepayment", async (req, res) => {
+  res.send(req.query.id);
+});
+
+
 router.get("/:id", async (req, res) => {
   const order = await OrderService.find(req.params.id);
   if (!order) return res.status(404).send("Cannot find order");

@@ -2,9 +2,9 @@ const BaseService = require('./base-service')
 const Status = require('../models/status')
 
 class StatusService extends BaseService {
-    async findByStatusName(name) {
+    async findByStatusName(data) {
       const obj ={
-        name : name
+        name : data
       }
        return this.query(obj)
       }

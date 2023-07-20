@@ -13,6 +13,12 @@
               <span class="menu-title">Roads</span>
             </router-link>
           </li>
+          <li class="nav-item active">
+            <router-link class="nav-link" to="pricing">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">Calculator</span>
+            </router-link>
+          </li>
         </ul>
       </nav>
 </template>

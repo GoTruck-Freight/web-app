@@ -141,6 +141,16 @@ export default createStore({
     async CalculatePayment (context, data) {
       // l deyişəni yolun uzuluğudur (km-lə)
       let l = await context.dispatch('getRoadsLength', data.Distance)
+      
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function () {
+        // always executed
+      });
       // fix ən aşşağı halda gediş haqqıdır
       const arr = [
         {
