@@ -38,7 +38,7 @@ app.use('/statuses', statusRouter)
 app.use('/orders', orderRouter)
 app.use('/roads', roadRouter)
 app.use('/pricing', pricingRouter)
-app.use('/adminUser', adminUserRouter )
+app.use('/admin', adminUserRouter )
 
 // Default route
 app.set('view engine', false);

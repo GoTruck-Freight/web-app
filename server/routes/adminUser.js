@@ -8,7 +8,7 @@ const authenticate = require('../middleware/authenticate')
 const isAdmin = require('../middleware/IsAdminMiddleware');
 
 // Registration endpoint
-app.post('/register', async (req, res) => {
+router.post('/register', async (req, res) => {
   try {
     const { username, password, email } = req.body;
 
@@ -33,7 +33,7 @@ app.post('/register', async (req, res) => {
 
 
 // Login endpoint
-app.post('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
 
@@ -58,7 +58,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.get('/protected-route', authenticate, (req, res) => {
+router.get('/protected-route', authenticate, (req, res) => {
   // Access only allowed for authenticated users
   res.status(200).json({ message: 'Protected route accessed' });
 });
