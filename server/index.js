@@ -14,7 +14,10 @@ const statusRouter = require('./routes/status');
 const orderRouter = require('./routes/order');
 const roadRouter = require('./routes/road');
 const pricingRouter = require('./routes/pricing');
+const adminUserRouter = require('./routes/adminUser');
 
+const authenticate = require('./middleware/IsAdminMiddleware');
+const adminUser = require('./models/adminUser');
 const port = process.env.PORT || 3000;
 
 // Enable CORS
@@ -35,6 +38,7 @@ app.use('/statuses', statusRouter)
 app.use('/orders', orderRouter)
 app.use('/roads', roadRouter)
 app.use('/pricing', pricingRouter)
+app.use('/adminUser', adminUserRouter )
 
 // Default route
 app.set('view engine', false);
