@@ -1,8 +1,7 @@
-<script lang="ts">
+<script>
 import { defineComponent } from 'vue'
 import { mapActions } from 'vuex'
 import { VDataTable } from 'vuetify/labs/VDataTable'
-import ItemType from '@/types/OrdersData'
 
 export default defineComponent({
   name: "OrderListComponent",
@@ -31,10 +30,10 @@ export default defineComponent({
       ],
       editedIndex: -1,
       editedItem: {
-        _id: ""
       },
       defaultItem: {
-        _id: ''
+        Date: "",
+        Origin: ""
       },
     }
   },
@@ -55,14 +54,14 @@ export default defineComponent({
       }
       this.closeDelete()
     },
-    deleteItem(item: {_id: string}): void {
+    deleteItem(item) {
       // Perform the delete operation on the item
       // For example, you can remove it from an array of items
       this.id = item._id
       this.editedIndex = this.orders.indexOf(item)
       this.dialogDelete = true
     },
-    editItem(item: ItemType) {
+    editItem(item) {
       this.editedIndex = this.orders.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
@@ -76,10 +75,11 @@ export default defineComponent({
       },
     async saveOrderStatus() {
       const arr = await this.getStatusbyName(this.selectedStatus)
+      const status = arr.shift()
       const data = {
         'id': this.editedItem._id,
         'status': {
-          "status": arr.shift()
+          "status": status
         }
       }
       const item = await this.updateOrder(data)

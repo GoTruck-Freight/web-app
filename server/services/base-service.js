@@ -10,7 +10,10 @@ class BaseService {
   load() {
     return this.model.find()
   }
-  
+  first() {
+    return this.model.find().limit(1)
+  }
+
   async insert(object) {
     return await this.model.create(object)
   }

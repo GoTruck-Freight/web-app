@@ -54,8 +54,8 @@ export default {
         },
         async setRoutemethod() {
             if (this.OriginPlace.getPlace() != undefined && this.DestinationPlace.getPlace() != undefined) {
-                const origin =  this.OriginPlace.gm_accessors_.place.Uj.formattedPrediction
-                const destination = this.DestinationPlace.gm_accessors_.place.Uj.formattedPrediction
+                const origin =  this.OriginPlace.gm_accessors_.place.Vj.formattedPrediction
+                const destination = this.DestinationPlace.gm_accessors_.place.Vj.formattedPrediction
                 // start bu kod mapsda rota cizmaq ucundu
                 const OriginAndDestinationPlace = [this.OriginPlace.getPlace(), this.DestinationPlace.getPlace()]
                 this.setOriginAndDestinationPlace(OriginAndDestinationPlace)

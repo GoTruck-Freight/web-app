@@ -6,10 +6,6 @@ const RoadService = require('./road-service')
 
 
 
-module.exports = { StatusService }
-module.exports = { DriverService }
-module.exports = { TruckService }
-module.exports = { OrderService }
-module.exports = { RoadService }
+module.exports = { StatusService, DriverService, TruckService, OrderService, RoadService }
 
 

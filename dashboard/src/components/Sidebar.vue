@@ -2,16 +2,22 @@
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
         <li class="nav-item active">
-            <a class="nav-link" href="index.html">
+            <router-link class="nav-link" to="orders">
               <i class="mdi mdi-grid-large menu-icon"></i>
               <span class="menu-title">Orders</span>
-            </a>
+            </router-link>
           </li> 
           <li class="nav-item active">
-            <a class="nav-link" href="index.html">
+            <router-link class="nav-link" to="roads">
               <i class="mdi mdi-grid-large menu-icon"></i>
               <span class="menu-title">Roads</span>
-            </a>
+            </router-link>
+          </li>
+          <li class="nav-item active">
+            <router-link class="nav-link" to="pricing">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">Calculator</span>
+            </router-link>
           </li>
         </ul>
       </nav>

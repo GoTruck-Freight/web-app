@@ -349,7 +349,7 @@
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
-            <Orders />
+            <Roads />
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
@@ -366,15 +366,15 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import Orders from '@/components/Orders.vue'; // @ is an alias to /src
-import Sidebar from '@/components/Sidebar.vue';
+<script>
+import { defineComponent } from 'vue'
+import Roads from '@/components/Roads.vue' // @ is an alias to /src
+import Sidebar from '@/components/Sidebar.vue'
 
 export default defineComponent({
   name: 'HomeView',
   components: {
-    Orders,
+    Roads,
     Sidebar
   },
 });

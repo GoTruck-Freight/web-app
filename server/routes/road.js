@@ -8,12 +8,12 @@ router.get("/", async (req, res) => {
   res.send(await RoadService.load());
 });
 
-router.get("/number=:number", async (req, res) => {
+router.get('/number=:number', async (req, res) => {
   const number = req.params.number;
   const roads = await RoadService.query({ number: number });
 
   if (roads.length === 0) {
-    return res.status(404).json({ error: "Roads not found" });
+    return res.status(404).json({ error: 'Roads not found' });
   }
 
   res.status(200).json(roads);
@@ -39,4 +39,4 @@ router.delete("/:id", async (req, res) => {
   res.sendStatus(204);
 });
 
-module.exports = router;
+module.exports = router
