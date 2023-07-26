@@ -31,7 +31,6 @@ export default {
     };
     loader.loadCallback(e => {
       if (e) {
-        console.log(e);
       } else {
         this.map = new google.maps.Map(document.getElementById("map"), mapOptions);
       }

@@ -4,19 +4,42 @@ axios.defaults.baseURL = process.env.VUE_APP_API_URL  || 'http://localhost:3000'
 
 export default createStore({
   state: {
+    token : "",
+    firebaseApiKey: "AIzaSyDrK7fGyYE9-Suspe8wC63Iy_BNjQF3_hE",
   },
   getters: {
+    isAuthenticated (state){
+      return state.token !== ""
+    }
   },
   mutations: {
+    setToken (state, token){
+      state.token = token
+    },
+    clearToken (state){
+      state.token = ""
+    }
   },
   actions: {
+    login ({ commit, dispatch, state }, authData){
+
+     return axios.post("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDrK7fGyYE9-Suspe8wC63Iy_BNjQF3_hE",
+      { email : authData.email, password : authData.password, returnSecureToken: true }
+      ).then(response => {
+        commit("setToken", response.data.idToken)
+      }).catch((err) => {
+        console.log(err);
+      });
+    },
+    logout ({ commit, dispatch, state }){
+
+    },
     async getOrders (){
       const orders = await axios.get(`/orders`)
       return orders
     },
     async updateOrder (context,data){
         const { id ,status } = data
-        console.log(data)
         try {
           const order = await axios.put(`/orders/${id}`,status)
           return order.data
