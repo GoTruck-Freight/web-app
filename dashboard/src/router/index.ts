@@ -21,7 +21,17 @@ const routes = [
   {
     path: '/orders',
     name: 'orders',
-    component: OrderView
+    component: OrderView,
+    beforeEnter: (from:any, to: any, next: any) => {
+      if (store.getters.isAuthenticated) {
+        next();
+      } else {
+        next({
+          path: '/login',
+          replace: true
+        })
+      }
+    }
   },
   {
     path: '/roads',
@@ -41,7 +51,17 @@ const routes = [
   {
     path: '/pricing',
     name: 'pricing',
-    component: () => import(/* webpackChunkName: "about" */ '../views/PricingView.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/PricingView.vue'),
+    beforeEnter: (from:any, to: any, next: any) => {
+      if (store.getters.isAuthenticated) {
+        next();
+      } else {
+        next({
+          path: '/login',
+          replace: true
+        })
+      }
+    }
   },
   {
     path: '/login',

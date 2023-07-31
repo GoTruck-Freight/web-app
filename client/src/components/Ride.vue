@@ -41,16 +41,10 @@ export default {
     },
     methods: {
         ...mapMutations(['setRoute','setOrigin','setDestination','setOriginAndDestinationPlace','setPayment','setTrucktype']),
-        ...mapActions(['getOrder']),
+        ...mapActions(['getOrderPrice']),
         //bu funksiya tirin(yuk masinin) tipini secmek ucundu misal tentli soyuduculu
         setTruck(value) {
             this.setTrucktype(value)
-            // if (this.trucktype == value) {
-            //     this.setTrucktype(false)
-            // }
-            // else {
-            //     this.setTrucktype(value)
-            // }
         },
         async setRoutemethod() {
             if (this.OriginPlace.getPlace() != undefined && this.DestinationPlace.getPlace() != undefined) {
@@ -88,7 +82,7 @@ export default {
                     Steps: results.routes[0].legs[0].steps,
                     Distance: results.routes[0].legs[0].distance.text
                 }
-                await this.getOrder(data)
+                await this.getOrderPrice(data)
             }
         },
 
@@ -160,8 +154,7 @@ export default {
                                     <span> 26 ton</span>
                                 </p>
                                 <p>
-                                    <font-awesome-icon icon="fa-solid fa-up-right-and-down-left-from-center" /><span> 105
-                                        kub</span>
+                                    <font-awesome-icon icon="fa-solid fa-up-right-and-down-left-from-center" /><span> 105 kub</span>
                                 </p>
                             </div>
                             <div class="col-4">
