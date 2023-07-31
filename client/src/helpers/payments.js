@@ -1,6 +1,6 @@
-export async function CalculatePayment (data) {
+export function calculatePayment (data) {
     // l deyişəni yolun uzuluğudur (km-lə)
-    let l = await context.dispatch('getRoadsLength', data.Distance)
+    let l = data.Distance
  
     // fix ən aşşağı halda gediş haqqıdır
     const arr = [
@@ -60,15 +60,10 @@ export async function CalculatePayment (data) {
 
     }
     payment += fix + data.extraRoads
-    let min_payment = payment - (payment / 100) * 7
+    let min_payment = payment - (payment / 100) * 7 //buradakı 7 faiz aralığını göstərir
     let max_payment = payment + (payment / 100) * 7
     min_payment = Math.round(min_payment / 10) * 10
     max_payment = Math.round(max_payment / 10) * 10
-    const payments = [min_payment,max_payment]
-    // payment = Math.round(payment / 10) * 10
-    context.commit('setPayment', payment)
-    context.commit('setminPayment', min_payment)
-    context.commit('setmaxPayment', max_payment)
+    const payments = { min_payment,payment,max_payment }
     return payments
-
   }

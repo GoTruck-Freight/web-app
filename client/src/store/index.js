@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 import axios from 'axios'
 axios.defaults.baseURL = process.env.VUE_APP_API_URL  || 'http://localhost:3000'
 import { getRoadLength,filterRoads } from '../helpers/roads'
+import { calculatePayment } from '../helpers/payments'
 
 export default createStore({
   state: {
@@ -84,7 +85,6 @@ export default createStore({
     },
 
     async getOrderPrice(context, value) {
-      // buraya melumda ride.vue dan gelir  
       const roads = await axios.get(`/app/getroads`)
       const obj = {
         steps: value.Steps,
@@ -94,7 +94,11 @@ export default createStore({
         Distance: getRoadLength(value.Distance),
         extraRoads: filterRoads(obj)
       }
-      await context.dispatch('CalculatePayment', data)
+      const payments = calculatePayment(data)
+      console.log(payments)
+      context.commit('setPayment', payments.payment)
+      context.commit('setminPayment', payments.min_payment)
+      context.commit('setmaxPayment', payments.max_payment)
  },
     async getStatusbyName (context,value){
       const status = await axios.get(`/statuses/name=${value}`)
