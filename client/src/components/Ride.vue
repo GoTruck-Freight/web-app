@@ -37,7 +37,7 @@ export default {
         });
     },
     computed: {
-        ...mapState(['min_payment', 'max_payment','trucktype'])
+        ...mapState(['payments', 'max_payment','trucktype'])
     },
     methods: {
         ...mapMutations(['setRoute','setOrigin','setDestination','setOriginAndDestinationPlace','setPayment','setTrucktype']),
@@ -137,8 +137,7 @@ export default {
                                 </p>
                             </div>
                             <div class="col-4">
-                                <font-awesome-icon icon="fa-solid fa-manat-sign" /><span>{{ min_payment }} - {{ max_payment
-                                }}</span>
+                                <font-awesome-icon icon="fa-solid fa-manat-sign" /><span>{{ payments.minimum }} - {{ payments.maximum }}</span>
                             </div>
                         </div>
                     </button>
@@ -158,8 +157,7 @@ export default {
                                 </p>
                             </div>
                             <div class="col-4">
-                                <font-awesome-icon icon="fa-solid fa-manat-sign" /><span>{{ min_payment }} - {{ max_payment
-                                }}</span>
+                                <font-awesome-icon icon="fa-solid fa-manat-sign" /><span>{{ payments.minimum }} - {{ payments.maximum }}</span>
                             </div>
                         </div>
                     </button>
