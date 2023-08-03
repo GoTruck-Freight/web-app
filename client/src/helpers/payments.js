@@ -1,74 +1,67 @@
-export async function CalculatePayment (data) {
-    // l deyişəni yolun uzuluğudur (km-lə)
-    let l = await context.dispatch('getRoadsLength', data.Distance)
- 
+export function calculatePayment ({ distance,extraRoads,price }) {
+    //distancedeyişəni yolun uzuluğudur (km-lə)
     // fix ən aşşağı halda gediş haqqıdır
     const arr = [
       {
         distance: 50,
-        price: 1
+        price: price.farefiftyKilometer
       },
       {
         distance: 100,
-        price: 1
+        price: price.fareHundredKilometer
       },
       {
         distance: 200,
-        price: 0.9
+        price: price.fareTwoHundredKilometer
       },
       {
         distance: 300,
-        price: 0.8
+        price: price.fareThreeHundredKilometer
       },
       {
         distance: 400,
-        price: 0.7
-      },
-      {
-        distance: 500,
-        price: 0.7
+        price: price.fareFourHundredKilometer
       }
     ]
-    const fix = 150
     let payment = 0
     for (let index = 0; index < arr.length; index++) {
 
-      if (l < arr[0].distance){
-        //əgər mesafə 50 km dən azdırsa l < 50
-        payment += l * arr[0].price  
+      if (distance < arr[0].distance){
+        //əgər mesafə 50 km dən azdırsa distance< 50
+        payment += distance* arr[0].price  
         break
       }
-      else if (l > arr[index].distance) {
-        if (index == arr.length - 1) {
-          //əgər məsafə 500 km dan çoxdursa l > 500
-          payment+= ( arr[index].distance - arr[index - 1].distance + l - arr[index].distance) * arr[index].price
+      else if (distance > arr[index].distance) {
+        if (index == arr.length - 1) {  //distance > 400
+          console.log("the end")
+          payment += ( distance -arr[index - 1].distance ) * arr[index].price
           break
         }
-        else if (index > 0) {
+        else if (index > 0) { 
           // misal 453 bu kod bu kod 400 -ü hesablayır
           payment+= (arr[index].distance - arr[index - 1].distance) * arr[index].price
-          if (l < arr[index + 1].distance) {
-            // misal 453 bu kod 53 -ü hesablayır 
-            payment += (l - arr[index].distance) * arr[index].price
+          if (distance < arr[index + 1].distance) {
+            // misal 453 bu kod 53 -ü hesablayır
+            payment += (distance - arr[index].distance) * arr[index].price
             break
           }
         }
         else {
           payment+= arr[index].distance * arr[index].price
-        } 
+        }
       }
 
     }
-    payment += fix + data.extraRoads
-    let min_payment = payment - (payment / 100) * 7
-    let max_payment = payment + (payment / 100) * 7
-    min_payment = Math.round(min_payment / 10) * 10
-    max_payment = Math.round(max_payment / 10) * 10
-    const payments = [min_payment,max_payment]
-    // payment = Math.round(payment / 10) * 10
-    context.commit('setPayment', payment)
-    context.commit('setminPayment', min_payment)
-    context.commit('setmaxPayment', max_payment)
+    payment += distance*price.farePerKilometer + extraRoads
+    if (payment < price.baseFare) {
+      payment = price.baseFare;
+    }
+    let min_payment = payment - (payment / 100) * price.percentRange //buradakı 7 faiz aralığını göstərir
+    let max_payment = payment + (payment / 100) * price.percentRange
+    const payments = { 
+      standart: payment,
+      minimum: Math.round(min_payment / 10) * 10,
+      maximum: Math.round(max_payment / 10) * 10
+     }
     return payments
-
   }

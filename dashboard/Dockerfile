@@ -4,13 +4,12 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN npm install
+RUN npm install --force
 
 COPY . .
 
 RUN npm run build
 
-EXPOSE 8000
-
+EXPOSE 8080
 
 CMD [ "npm", "run", "serve"]
