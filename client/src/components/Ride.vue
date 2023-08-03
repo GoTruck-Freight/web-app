@@ -1,6 +1,7 @@
 <script >
 import { Loader } from '@googlemaps/js-api-loader'
 import { mapMutations, mapActions, mapState } from 'vuex'
+import { getFormattedPrediction } from '../helpers/maps'
 
 export default {
     name: 'Ride',
@@ -48,8 +49,9 @@ export default {
         },
         async setRoutemethod() {
             if (this.OriginPlace.getPlace() != undefined && this.DestinationPlace.getPlace() != undefined) {
-                const origin =  this.OriginPlace.gm_accessors_.place.Vj.formattedPrediction
-                const destination = this.DestinationPlace.gm_accessors_.place.Vj.formattedPrediction
+                
+                const origin =  getFormattedPrediction(this.OriginPlace.gm_accessors_.place)
+                const destination = getFormattedPrediction(this.DestinationPlace.gm_accessors_.place)
                 // start bu kod mapsda rota cizmaq ucundu
                 const OriginAndDestinationPlace = [this.OriginPlace.getPlace(), this.DestinationPlace.getPlace()]
                 this.setOriginAndDestinationPlace(OriginAndDestinationPlace)
