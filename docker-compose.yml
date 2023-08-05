@@ -10,13 +10,13 @@ services:
     build: server
     image: server:latest
     restart: unless-stopped
-    volumes:
-      - ./server/config:/opt/app/config
-      - ./server/src:/opt/app/src
-      - ./server/package.json:/opt/package.json
-      - ./server/package-lock.json:/opt/package-lock.json
-      - ./server/.env:/opt/app/.env
-      - ./server/public/uploads:/opt/app/public/uploads
+    # volumes:
+    #   - ./server/config:/opt/app/config
+    #   - ./server/src:/opt/app/src
+    #   - ./server/package.json:/opt/package.json
+    #   - ./server/package-lock.json:/opt/package-lock.json
+    #   - ./server/.env:/opt/app/.env
+    #   - ./server/public/uploads:/opt/app/public/uploads
     ports:
       - '3000:3000'
     # networks:
