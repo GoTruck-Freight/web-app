@@ -4,19 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "jest",
     "test-watch": "jest --watch"
   },
   "author": "Guliyev",
   "license": "ISC",
   "dependencies": {
-    "@adminjs/express": "^5.0.1",
-    "@adminjs/mongoose": "^3.0.1",
-    "@adminjs/upload": "^3.0.1",
-    "adminjs": "^6.7.4",
-    "bcrypt": "^5.0.1",
-    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "ejs": "^3.1.9",

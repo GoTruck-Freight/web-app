@@ -84,7 +84,6 @@
   transform: translateZ(0);
   transition: filter 0.2s;
   -moz-user-select: none;
-   -ms-user-select: none;
        user-select: none;
   -webkit-user-select: none;
   vertical-align: middle;
@@ -111,7 +110,6 @@
 .button-19:focus {
   -webkit-user-select: auto;
      -moz-user-select: auto;
-      -ms-user-select: auto;
           user-select: auto;
 }
 
@@ -148,7 +146,6 @@
   text-decoration: none;
   transition: all 250ms;
   -moz-user-select: none;
-   -ms-user-select: none;
        user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
