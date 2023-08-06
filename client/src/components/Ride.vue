@@ -26,15 +26,19 @@ export default {
             region: 'AZ'
         });
         loader.loadCallback(e => {
+            const options = {
+                componentRestrictions: { country: "az" },
+                fields: ["place_id"],
+            };
             this.OriginPlace = new google.maps.places.Autocomplete(
                 this.$refs["origin"],
-                { fields: ["place_id"] }
+                options
             );
             this.DestinationPlace = new google.maps.places.Autocomplete(
                 this.$refs["destination"],
-                { fields: ["place_id"] }
+                options
             );
-            this.DirectionsRenderer = new google.maps.DirectionsRenderer();
+            this.DirectionsRenderer = new google.maps.DirectionsRenderer()
         });
     },
     computed: {
@@ -49,7 +53,7 @@ export default {
         },
         async setRoutemethod() {
             if (this.OriginPlace.getPlace() != undefined && this.DestinationPlace.getPlace() != undefined) {
-                
+                console.log(this.OriginPlace)
                 const origin =  getFormattedPrediction(this.OriginPlace.gm_accessors_.place)
                 const destination = getFormattedPrediction(this.DestinationPlace.gm_accessors_.place)
                 // start bu kod mapsda rota cizmaq ucundu
@@ -84,6 +88,7 @@ export default {
                     Steps: results.routes[0].legs[0].steps,
                     Distance: results.routes[0].legs[0].distance.text
                 }
+                console.log(results.routes[0])
                 await this.getOrderPrice(data)
             }
         },
