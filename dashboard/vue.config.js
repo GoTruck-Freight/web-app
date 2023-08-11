@@ -1,11 +1,9 @@
 const { defineConfig } = require('@vue/cli-service')
-module.exports = defineConfig({
-  // devServer: {
-  //   overlay: {
-  //     warnings: true,
-  //     errors: false
-  //   }
-  // }
+module.exports = {
+  devServer: {
+    // allowedHosts: 'all',
+    port: 5000
+  },
   transpileDependencies: true,
 
   pluginOptions: {
@@ -13,4 +11,4 @@ module.exports = defineConfig({
 			// https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
 		}
   }
-})
+}

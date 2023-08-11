@@ -2,6 +2,7 @@
 import { Loader } from '@googlemaps/js-api-loader'
 import { mapMutations, mapActions, mapState } from 'vuex'
 import { getFormattedPrediction } from '../helpers/maps'
+import { calcRoute } from '../helpers/roads'
 
 export default {
     name: 'Ride',
@@ -38,10 +39,10 @@ export default {
         });
     },
     computed: {
-        ...mapState(['payments', 'max_payment','trucktype'])
+        ...mapState(['payments', 'max_payment', 'trucktype'])
     },
     methods: {
-        ...mapMutations(['setRoute','setOrigin','setDestination','setOriginAndDestinationPlace','setPayment','setTrucktype']),
+        ...mapMutations(['setRoute', 'setOrigin', 'setDestination', 'setOriginAndDestinationPlace', 'setPayment', 'setTrucktype']),
         ...mapActions(['getOrderPrice']),
         //bu funksiya tirin(yuk masinin) tipini secmek ucundu misal tentli soyuduculu
         setTruck(value) {
@@ -49,40 +50,25 @@ export default {
         },
         async setRoutemethod() {
             if (this.OriginPlace.getPlace() != undefined && this.DestinationPlace.getPlace() != undefined) {
-                
-                const origin =  getFormattedPrediction(this.OriginPlace.gm_accessors_.place)
+
+                const origin = getFormattedPrediction(this.OriginPlace.gm_accessors_.place)
                 const destination = getFormattedPrediction(this.DestinationPlace.gm_accessors_.place)
                 // start bu kod mapsda rota cizmaq ucundu
                 const OriginAndDestinationPlace = [this.OriginPlace.getPlace(), this.DestinationPlace.getPlace()]
                 this.setOriginAndDestinationPlace(OriginAndDestinationPlace)
-                
-                // finsh bu kod mapsda rota cizmaq ucundu
-                const DirectionService = new google.maps.DirectionsService();
 
-                const results = await DirectionService.route(
-                    {
-                        origin: { placeId: this.OriginPlace.getPlace().place_id },
-                        destination: { placeId: this.DestinationPlace.getPlace().place_id },
-                        travelMode: google.maps.TravelMode.DRIVING,
-                    },
-                    (response, status) => {
-                        if (status === "OK") {
-                            this.Next_step = true
-                            this.setOrigin(origin)
-                            this.setDestination(destination)
-                            // setroute funksiyasi admin panele (emaile ) rotani bildirmek  ucundu
-                            this.setRoute(origin + ' -> '+destination)
-                            // this.DirectionsRenderer.setDirections(response)
+                const result = await calcRoute(this.OriginPlace.getPlace().place_id, this.DestinationPlace.getPlace().place_id)
+                if (result != 'undefined') {
+                    this.Next_step = true
+                    this.setOrigin(origin)
+                    this.setDestination(destination)
+                    // setroute funksiyasi admin panele (emaile ) rotani bildirmek  ucundu
+                    this.setRoute(origin + ' -> ' + destination)
 
-                        } else {
-                            window.alert("Directions request failed due to " + status);
-                        }
-                    }
-                )
-                // this.setPayment(this.CalculatePayment(RoadDistance, RoadsName))
+                }
                 const data = {
-                    Steps: results.routes[0].legs[0].steps,
-                    Distance: results.routes[0].legs[0].distance.text
+                    Steps: result.routes[0].legs[0].steps,
+                    Distance: result.routes[0].legs[0].distance.text
                 }
                 await this.getOrderPrice(data)
             }
@@ -98,14 +84,14 @@ export default {
         <div class="container ride-steps ride-step-one" v-show="!Next_step">
             <div class="row ride-steps-a">
                 <div class="col-12">
-                <h1 class="h2 ride-title">Yola davam</h1>
-            </div>
-            <div class="col-12 ">
-                <input type="text" class="form-control input-s1" placeholder="Yük götrülmə yerini daxil edin"
-                    @keyup="onChange" ref="origin" v-model="start" />
-                <input type="text" class="form-control input-s1 destination_input" placeholder="Hara gediləcək"
-                    @keyup="onChange" ref="destination" />
-            </div>
+                    <h1 class="h2 ride-title">Yola davam</h1>
+                </div>
+                <div class="col-12 ">
+                    <input type="text" class="form-control input-s1" placeholder="Yük götrülmə yerini daxil edin"
+                        @keyup="onChange" ref="origin" v-model="start" />
+                    <input type="text" class="form-control input-s1 destination_input" placeholder="Hara gediləcək"
+                        @keyup="onChange" ref="destination" />
+                </div>
             </div>
             <div class="col-12 ride-next">
                 <button class="button-s1" @click="setRoutemethod()">Davam et</button>
@@ -122,7 +108,9 @@ export default {
                         dəqiq qiymət təklif olunacaq.</p>
                 </div>
                 <div class="col-12 choose-truck">
-                    <button class="button-80" :class="[{ 'button-80-clicked': trucktype == 'standart' }, { '': !trucktype }]" @click="setTruck('standart')">
+                    <button class="button-80"
+                        :class="[{ 'button-80-clicked': trucktype == 'standart' }, { '': !trucktype }]"
+                        @click="setTruck('standart')">
                         <div class="row button-row">
                             <div class="col-3">
                                 <img class="" src="../assets/public/trailer-truck.png" />
@@ -139,11 +127,13 @@ export default {
                                 </p>
                             </div>
                             <div class="col-4">
-                                <font-awesome-icon icon="fa-solid fa-manat-sign" /><span>{{ payments.minimum }} - {{ payments.maximum }}</span>
+                                <font-awesome-icon icon="fa-solid fa-manat-sign" /><span>{{ payments.minimum }} - {{
+                                    payments.maximum }}</span>
                             </div>
                         </div>
                     </button>
-                    <button class="button-80" :class="[{ 'button-80-clicked': trucktype == 'mega' }, { '': !trucktype }]" @click="setTruck('mega')">
+                    <button class="button-80" :class="[{ 'button-80-clicked': trucktype == 'mega' }, { '': !trucktype }]"
+                        @click="setTruck('mega')">
                         <div class="row button-row">
                             <div class="col-3">
                                 <img class="" src="../assets/public/trailer-truck.png" />
@@ -155,11 +145,13 @@ export default {
                                     <span> 26 ton</span>
                                 </p>
                                 <p>
-                                    <font-awesome-icon icon="fa-solid fa-up-right-and-down-left-from-center" /><span> 105 kub</span>
+                                    <font-awesome-icon icon="fa-solid fa-up-right-and-down-left-from-center" /><span> 105
+                                        kub</span>
                                 </p>
                             </div>
                             <div class="col-4">
-                                <font-awesome-icon icon="fa-solid fa-manat-sign" /><span>{{ payments.minimum }} - {{ payments.maximum }}</span>
+                                <font-awesome-icon icon="fa-solid fa-manat-sign" /><span>{{ payments.minimum }} - {{
+                                    payments.maximum }}</span>
                             </div>
                         </div>
                     </button>
@@ -200,10 +192,12 @@ export default {
 
     .ride-steps {
         height: 100%;
+
         .ride-steps-a {
             overflow: scroll;
             height: 88%;
             align-content: flex-start;
+
             .ride-title {
                 font-weight: bold;
                 margin-bottom: 3%;
@@ -215,7 +209,7 @@ export default {
         margin-top: 2%;
     }
 
-    
+
 
     .button-row {
         align-items: center
@@ -233,5 +227,4 @@ export default {
 
         }
     }
-}
-</style>
+}</style>

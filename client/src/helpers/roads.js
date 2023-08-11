@@ -11,11 +11,6 @@ export function getRoadLength(distance) {
     return length;
   }
   export function filterRoads(data) {
-    // const roads = [
-    //   { number: 'M4', name: 'Bakı-Şamaxı-Yevlax', factor: 0.37 },
-    //   { number: 'R22', name: 'Şəmkir-Gədəbəy', factor: 0.37 },
-    //   { number: 'R-8', name: 'Muğanlı-İsmayıllı', factor: 0.37 },
-    // ]
     const { roads, steps } = data
     let results = 0;
     steps.forEach(async item => {
@@ -29,4 +24,37 @@ export function getRoadLength(distance) {
       }
     });
     return results;
+  }
+
+  export async function routeConverter(origin,destination){
+    const DirectionService = new google.maps.DirectionsService();
+
+    const result = await DirectionService.route(
+        {
+            origin: { placeId: origin },
+            destination: { placeId: destination },
+            travelMode: google.maps.TravelMode.DRIVING,
+        },
+        (response, status) => {
+            if (status === "OK") {
+            } else {
+                window.alert("Directions request failed due to " + status);
+            }
+        }
+    )
+    return result
+  }
+  export async function calcRoute(start,end) {
+    const DirectionService = new google.maps.DirectionsService();
+
+    const request = {
+      origin: { placeId: start },
+      destination: { placeId: end },
+      travelMode: google.maps.TravelMode.DRIVING,
+    }
+    return await DirectionService.route(request, function(result, status) {
+      if (status == 'OK') {
+        return result
+      }
+    })
   }
