@@ -35,6 +35,14 @@ const PricingSchema = new Schema({
             type: Number,
             default: 1
       },
+      comeBack: {
+            type:  Number,
+            default: 0.06
+      },
+      comeBackMaxPercent: {  
+            type  : Number,
+            default : 30
+    },
 
 });
 module.exports = new mongoose.model('pricing', PricingSchema)

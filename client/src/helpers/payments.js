@@ -55,7 +55,7 @@ export function calculatePayment ({ distance,extraRoads,price,comeBack }) {
     payment += distance*price.farePerKilometer + extraRoads + price.baseFare
     let comeBackPercent
     if (comeBack > 0) {
-      comeBackPercent = Math.min(comeBack * 0.0625, 30);
+      comeBackPercent = Math.min(comeBack * price.comeBack, 30);
       console.log('Discount: ' + comeBackPercent);
       payment = payment - percentage(payment,comeBackPercent)
     }

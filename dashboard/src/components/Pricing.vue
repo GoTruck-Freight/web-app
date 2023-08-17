@@ -17,6 +17,7 @@ export default {
             this.data = orders.shift()
         },
         async updateItems(){
+            console.log(this.data)
             const data = {
                     "baseFare": this.data.baseFare,
                     "farePerKilometer": this.data.farePerKilometer,
@@ -25,7 +26,9 @@ export default {
                     "fareTwoHundredKilometer": this.data.fareTwoHundredKilometer,
                     "fareThreeHundredKilometer": this.data.fareThreeHundredKilometer,
                     "fareFourHundredKilometer": this.data.fareFourHundredKilometer,
-                    "percentRange": this.data.percentRange
+                    "percentRange": this.data.percentRange,
+                    "comeBack": this.data.comeBack,
+                    "comeBackMaxPercent": this.data.comeBackMaxPercent,
                 }
 
             const id = this.data._id
@@ -108,6 +111,18 @@ export default {
                                                                 Percent range for payment
                                                             </div>
                                                             <v-slider v-model="data.percentRange" step="0.1" thumb-label="always" min="0" max="30"></v-slider>
+                                                        </div>
+                                                        <div class="py-3">
+                                                            <div class="text-caption">
+                                                                comeBack percent
+                                                            </div>
+                                                            <v-slider v-model="data.comeBack" step="0.0001" thumb-label="always" min="0" max="0.1"></v-slider>
+                                                        </div>
+                                                        <div class="py-3">
+                                                            <div class="text-caption">
+                                                                comeBack percent
+                                                            </div>  
+                                                            <v-slider v-model="data.comeBackMaxPercent" step="1" thumb-label="always" min="0" max="100"></v-slider>
                                                         </div>
                                                         <div class="col-12">
                                                             <button class="btn btn-success" @click="updateItems()">Save</button>

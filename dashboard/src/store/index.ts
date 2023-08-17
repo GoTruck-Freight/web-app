@@ -97,7 +97,6 @@ export default createStore({
     },
     async getStatusbyName (context,value){
       const status = await axios.get(`/statuses/name=${value}`)
-      console.log(value)
       return status.data
     },
   },
