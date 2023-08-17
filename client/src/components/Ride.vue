@@ -2,6 +2,7 @@
 import { Loader } from '@googlemaps/js-api-loader'
 import { mapMutations, mapActions, mapState } from 'vuex'
 import { getFormattedPrediction } from '../helpers/maps'
+import { calcRoute, getRoadLength } from '../helpers/roads'
 
 export default {
     name: 'Ride',
@@ -26,15 +27,19 @@ export default {
             region: 'AZ'
         });
         loader.loadCallback(e => {
+            const options = {
+                componentRestrictions: { country: "az" },
+                fields: ["place_id"],
+            };
             this.OriginPlace = new google.maps.places.Autocomplete(
                 this.$refs["origin"],
-                { fields: ["place_id"] }
+                options
             );
             this.DestinationPlace = new google.maps.places.Autocomplete(
                 this.$refs["destination"],
-                { fields: ["place_id"] }
+                options
             );
-            this.DirectionsRenderer = new google.maps.DirectionsRenderer();
+            this.DirectionsRenderer = new google.maps.DirectionsRenderer()
         });
     },
     computed: {
@@ -49,45 +54,41 @@ export default {
         },
         async setRoutemethod() {
             if (this.OriginPlace.getPlace() != undefined && this.DestinationPlace.getPlace() != undefined) {
-                
-                const origin =  getFormattedPrediction(this.OriginPlace.gm_accessors_.place)
+                const center = 'ChIJNQlbhGmGMEARS-PLG1gLGgw'
+                let comeBack = 0
+                const origin = getFormattedPrediction(this.OriginPlace.gm_accessors_.place)
                 const destination = getFormattedPrediction(this.DestinationPlace.gm_accessors_.place)
                 // start bu kod mapsda rota cizmaq ucundu
                 const OriginAndDestinationPlace = [this.OriginPlace.getPlace(), this.DestinationPlace.getPlace()]
                 this.setOriginAndDestinationPlace(OriginAndDestinationPlace)
-                
-                // finsh bu kod mapsda rota cizmaq ucundu
-                const DirectionService = new google.maps.DirectionsService();
 
-                const results = await DirectionService.route(
-                    {
-                        origin: { placeId: this.OriginPlace.getPlace().place_id },
-                        destination: { placeId: this.DestinationPlace.getPlace().place_id },
-                        travelMode: google.maps.TravelMode.DRIVING,
-                    },
-                    (response, status) => {
-                        if (status === "OK") {
-                            this.Next_step = true
-                            this.setOrigin(origin)
-                            this.setDestination(destination)
-                            // setroute funksiyasi admin panele (emaile ) rotani bildirmek  ucundu
-                            this.setRoute(origin + ' -> '+destination)
-                            // this.DirectionsRenderer.setDirections(response)
+                let originToCenter = await calcRoute(this.OriginPlace.getPlace().place_id, center)
+                let destinationToCenter = await calcRoute(this.DestinationPlace.getPlace().place_id, center)
 
-                        } else {
-                            window.alert("Directions request failed due to " + status);
-                        }
-                    }
-                )
-                // this.setPayment(this.CalculatePayment(RoadDistance, RoadsName))
+                originToCenter = getRoadLength(originToCenter.routes[0].legs[0].distance.text)
+                destinationToCenter = getRoadLength(destinationToCenter.routes[0].legs[0].distance.text)
+
+                if (originToCenter > destinationToCenter){
+                    comeBack = originToCenter - destinationToCenter
+                }
+                console.log(comeBack)
+
+                const result = await calcRoute(this.OriginPlace.getPlace().place_id, this.DestinationPlace.getPlace().place_id)
+                if (result != 'undefined') {
+                    this.Next_step = true
+                    this.setOrigin(origin)
+                    this.setDestination(destination)
+                    // setroute funksiyasi admin panele (emaile ) rotani bildirmek  ucundu
+                    this.setRoute(origin + ' -> ' + destination)
+                }
                 const data = {
-                    Steps: results.routes[0].legs[0].steps,
-                    Distance: results.routes[0].legs[0].distance.text
+                    Steps: result.routes[0].legs[0].steps,
+                    Distance: result.routes[0].legs[0].distance.text,
+                    comeBack
                 }
                 await this.getOrderPrice(data)
             }
         },
-
     },
 
 }

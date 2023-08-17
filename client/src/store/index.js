@@ -82,11 +82,11 @@ export default createStore({
         steps: value.Steps,
         roads: roads.data
       }
-      console.log(roads.data)
       const data = {
         distance: getRoadLength(value.Distance),
         extraRoads: filterRoads(obj),
-        price: price.data[0]
+        price: price.data[0],
+        comeBack: value.comeBack
       }
       const payments = calculatePayment(data)
       context.commit('setPayments', payments)
