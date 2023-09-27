@@ -1,0 +1,21 @@
+.login {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(138, 0, 255, 0.1215686275);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login .login-panel {
+  width: 450px;
+  height: auto;
+  background-color: white;
+  border-radius: 10px;
+  padding: 2%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.login .login-panel .login-panel-content {
+  margin: 4% 0;
+  display: flex;
+  justify-content: center;
+}/*# sourceMappingURL=login.css.map */

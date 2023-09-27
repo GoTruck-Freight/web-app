@@ -1,0 +1,37 @@
+{
+  "name": "front",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@coreui/coreui": "^4.2.2",
+    "@coreui/vue": "^4.5.0",
+    "@egjs/vue3-flicking": "^4.10.2",
+    "@fortawesome/fontawesome-svg-core": "^6.2.0",
+    "@fortawesome/free-brands-svg-icons": "^6.2.0",
+    "@fortawesome/free-regular-svg-icons": "^6.2.0",
+    "@fortawesome/free-solid-svg-icons": "^6.2.0",
+    "@fortawesome/vue-fontawesome": "^3.0.1",
+    "@googlemaps/js-api-loader": "^1.15.1",
+    "axios": "^1.2.2",
+    "emailjs-com": "^3.2.0",
+    "maska": "^2.1.7",
+    "register-service-worker": "^1.7.2",
+    "vue": "^3.3.4",
+    "vue-router": "^4.0.3",
+    "vue3-click-away": "^1.2.4",
+    "vuex": "^4.0.0",
+    "webpack-chain": "^6.5.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
+    "vite": "^4.4.5",
+    "sass": "^1.32.7",
+    "sass-loader": "^12.0.0"
+  }
+}
