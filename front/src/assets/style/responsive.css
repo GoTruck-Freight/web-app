@@ -1,0 +1,32 @@
+@media only screen and (max-width: 576px) {
+  .login-panel {
+    width: 100%;
+  }
+}
+/* Extra small devices (phones, 600px and down) */
+/* Small devices (portrait tablets and large phones, 600px and up) */
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .Ride {
+    top: 55px;
+    width: 420px;
+    left: 34px;
+    height: 90%;
+    bottom: 0;
+  }
+}
+@media only screen and (max-width: 768px) {
+  header {
+    display: none;
+  }
+  .Ride {
+    height: 62% !important;
+    width: 100%;
+    bottom: 0;
+  }
+  #map {
+    height: 40% !important;
+  }
+}
+/* Large devices (laptops/desktops, 992px and up) */
+/* Extra large devices (large laptops and desktops, 1200px and up) *//*# sourceMappingURL=responsive.css.map */

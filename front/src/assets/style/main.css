@@ -1,0 +1,61 @@
+@import url("./login.css");
+@import url("./scss/bootstrap.css");
+@import url("./style.css");
+@import url("./reset.css");
+html, body {
+  height: 100%;
+  font-family: Montserrat;
+}
+
+header nav {
+  box-shadow: 4.10924px 4.10924px 12.3277px rgba(0, 0, 0, 0.3);
+  font-family: Inter;
+  padding: 0 !important;
+}
+header nav .container .navbar-brand {
+  background-image: url("./public/Logo-2.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100px;
+  height: 40px;
+}
+header nav .container > div {
+  justify-content: flex-end;
+}
+header nav .container > div ul {
+  align-items: center;
+}
+header nav .container > div ul li {
+  width: auto;
+  display: flex;
+  justify-content: center;
+}
+header nav .container > div ul li a {
+  font-weight: bold;
+}
+header nav .container > div ul li .account {
+  width: 150px;
+  height: 70px;
+  background-color: black;
+  border-radius: 82px;
+  color: white;
+  background-image: url("./public/Profile.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+header nav .container > div ul .account-item {
+  width: 210px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#app {
+  height: 100%;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}/*# sourceMappingURL=main.css.map */

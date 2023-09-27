@@ -1,0 +1,21 @@
+.login {
+    width: 100%;
+    height: 100%;
+    background-color: #8a00ff1f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .login-panel {
+        width: 450px;
+        height: auto;
+        background-color: white;
+        border-radius: 10px;
+        padding: 2%;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        .login-panel-content {
+            margin: 4% 0;
+            display: flex;
+            justify-content: center;
+        }
+    }
+}

@@ -21,10 +21,10 @@ services:
       - '3000:3000'
     # networks:
     #   - server
-  client:
-    container_name: client
-    image: client:latest
-    build: client
+  front:
+    container_name: front
+    image: front:latest
+    build: front
     ports:
       - "8000:8000"
     # networks:
